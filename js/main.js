@@ -22,6 +22,34 @@ document.addEventListener('DOMContentLoaded', function() {
     checkSessionStatus();
 });
 
+// メッセージ表示関数をグローバルに
+window.showMessage = function(message, type = 'info') {
+    // 既存のメッセージを削除
+    const existingMessage = document.querySelector('.message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // 新しいメッセージを作成
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}-message`;
+    messageDiv.textContent = message;
+    
+    // メッセージを挿入
+    const container = document.querySelector('.container') || document.querySelector('.upload-container');
+    if (container) {
+        const firstChild = container.firstElementChild;
+        container.insertBefore(messageDiv, firstChild.nextSibling);
+    }
+    
+    // 3秒後に自動削除
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.remove();
+        }
+    }, 3000);
+};
+
 // ログイン処理
 function handleLogin(e) {
     e.preventDefault();
